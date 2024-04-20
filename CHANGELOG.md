@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4](https://github.com/browser-actions/actions-swing/compare/v0.0.3...v0.0.4) (2024-04-20)
+
+
+### Bug Fixes
+
+* publish script ([22e2c9c](https://github.com/browser-actions/actions-swing/commit/22e2c9c247c4c55b7b9548ed6ef6410fa0ffc57d))
+
 ## [0.0.3](https://github.com/browser-actions/actions-swing/compare/v0.0.2...v0.0.3) (2024-04-20)
 
 
