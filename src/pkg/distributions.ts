@@ -1,5 +1,5 @@
-import { spawn } from "node:child_process";
 import * as fs from "node:fs/promises";
+import { exec } from "@actions/exec";
 import type { InstallOption, UninstallOption } from "./types";
 
 type OsRelease = {
@@ -42,31 +42,6 @@ interface PackageManager {
   install(packageName: string[], opts?: InstallOption): Promise<void>;
   uninstall(packageName: string[], opts?: UninstallOption): Promise<void>;
 }
-
-const exec = (
-  cmd: string,
-  args: string[],
-  env?: Record<string, string>,
-): Promise<void> => {
-  const process = spawn(cmd, args, { env });
-
-  process.stdout.on("data", (data: Buffer) => {
-    console.log(`[${cmd}] ${data.toString()}`);
-  });
-  process.stderr.on("data", (data: Buffer) => {
-    console.error(`[${cmd}] ${data}`);
-  });
-
-  return new Promise((resolve, reject) => {
-    process.on("close", (code: number) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`${cmd} exited with code ${code}`));
-      }
-    });
-  });
-};
 
 export class ZypperPackageManager implements PackageManager {
   async install(packageName: string[], opts?: InstallOption): Promise<void> {
