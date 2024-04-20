@@ -1,0 +1,48 @@
+name: 'build-test'
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run lint
+      - run: pnpm run test
+
+  test-integration:
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - redhat/ubi9
+          - oraclelinux:9
+          - fedora
+          - debian
+          - ubuntu
+          - linuxmintd/mint21-amd64
+          - opensuse/leap
+          - registry.suse.com/bci/bci-base:15.5
+    runs-on: ubuntu-latest
+    container: ${{ matrix.container }}
+    steps:
+      # Override GITHUB_PATH by the current PATH to prevent the issue discussed in https://github.com/actions/runner/issues/3210
+      - run: echo "$PATH" >>"$GITHUB_PATH"
+      # Required for actions
+      - run: zypper install --no-confirm tar gzip
+        if: ${{ matrix.container == 'opensuse/leap' }}
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run test:integration
