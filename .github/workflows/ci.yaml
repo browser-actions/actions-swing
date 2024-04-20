@@ -59,8 +59,6 @@ jobs:
     steps:
     - uses: google-github-actions/release-please-action@v4
       id: release
-      with:
-        command: manifest
     - uses: actions/checkout@v4
       if: ${{ steps.release.outputs.release_created }}
     - uses: actions/download-artifact@v4
