@@ -133,7 +133,7 @@ export class YumPackageManager implements PackageManager {
       ]);
     } else {
       await exec("yum", [
-        "install",
+        "remove",
         "--assumeyes",
         "--setopt=install_weak_deps=False",
         ...packageName,
