@@ -1,5 +1,5 @@
 const run = () => {
-  console.log("Bootstrap");
+  return 42;
 };
 
 export { run };

@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsup",
-    "lint": "biome ci ./src",
-    "lint:fix": "biome check --apply ./src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "biome ci ./src ./test",
+    "lint:fix": "biome check --apply ./src ./test",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.7.0",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^1.5.0"
   }
 }

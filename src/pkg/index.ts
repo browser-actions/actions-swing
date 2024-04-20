@@ -1,5 +1,5 @@
 const install = async () => {
-  console.log("Installing packages...");
+  return 0xdeadbeef;
 };
 
 export { install };
