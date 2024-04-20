@@ -8,7 +8,8 @@
     "build": "tsup",
     "lint": "biome ci ./src ./test",
     "lint:fix": "biome check --apply ./src ./test",
-    "test": "vitest"
+    "test": "vitest",
+    "test:integration": "vitest run test/integration/**"
   },
   "keywords": [],
   "author": "",
