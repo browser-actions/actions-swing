@@ -133,7 +133,7 @@ export class YumPackageManager implements PackageManager {
       ]);
     } else {
       await exec("yum", [
-        "remove",
+        "install",
         "--assumeyes",
         "--setopt=install_weak_deps=False",
         ...packageName,
@@ -146,9 +146,9 @@ export class YumPackageManager implements PackageManager {
     opts?: UninstallOption,
   ): Promise<void> {
     if (opts?.sudo) {
-      await exec("sudo", ["yum", "uninstall", "--assumeyes", ...packageName]);
+      await exec("sudo", ["yum", "remove", "--assumeyes", ...packageName]);
     } else {
-      await exec("yum", ["uninstall", "--assumeyes", ...packageName]);
+      await exec("yum", ["remove", "--assumeyes", ...packageName]);
     }
   }
 }

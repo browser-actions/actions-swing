@@ -6,15 +6,13 @@ import { pkg } from "../../src/index";
 const exec = util.promisify(child_process.exec);
 
 describe("pkg", () => {
-  test("install", async () => {
+  test("install and uninstall jq", async () => {
     await pkg.install(["jq"]);
 
     const { stdout } = await exec("jq --version");
-
     expect(stdout).toContain("jq-");
 
     await pkg.uninstall(["jq"]);
-
     expect(() => exec("jq --version")).rejects.toThrow();
   });
 });
