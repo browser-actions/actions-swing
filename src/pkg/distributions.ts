@@ -71,14 +71,14 @@ export class AptPackageManager implements PackageManager {
           "--no-install-recommends",
           ...packageName,
         ],
-        env,
+        { env },
       );
     } else {
       await exec("apt-get", ["update"]);
       await exec(
         "apt-get",
         ["install", "--yes", "--no-install-recommends", ...packageName],
-        env,
+        { env },
       );
     }
   }
@@ -89,9 +89,9 @@ export class AptPackageManager implements PackageManager {
   ): Promise<void> {
     const env = { DEBIAN_FRONTEND: "noninteractive" };
     if (opts?.sudo) {
-      await exec("sudo", ["apt-get", "remove", "--yes", ...packageName], env);
+      await exec("sudo", ["apt-get", "remove", "--yes", ...packageName], { env });
     } else {
-      await exec("apt-get", ["remove", "--yes", ...packageName], env);
+      await exec("apt-get", ["remove", "--yes", ...packageName], { env });
     }
   }
 }
