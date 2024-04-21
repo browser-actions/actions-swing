@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.5](https://github.com/browser-actions/actions-swing/compare/v0.0.4...v0.0.5) (2024-04-21)
+
+
+### Features
+
+* add runtime package ([#4](https://github.com/browser-actions/actions-swing/issues/4)) ([37eb956](https://github.com/browser-actions/actions-swing/commit/37eb956d3f96b324d4982ba4f2c2789b9b4aba20))
+
+
+### Miscellaneous Chores
+
+* release 0.0.5 ([c76b92d](https://github.com/browser-actions/actions-swing/commit/c76b92d972a48bdeaf19f5d1586f6f849ee65341))
+
 ## [0.0.4](https://github.com/browser-actions/actions-swing/compare/v0.0.3...v0.0.4) (2024-04-20)
 
 
