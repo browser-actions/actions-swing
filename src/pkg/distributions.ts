@@ -1,42 +1,6 @@
-import * as fs from "node:fs/promises";
 import { exec } from "@actions/exec";
+import { getOsReleaseId } from "../runtime";
 import type { InstallOption, UninstallOption } from "./types";
-
-type OsRelease = {
-  ID: string;
-};
-
-const DEFAULT_OS_RELEASE_PATH = "/etc/os-release";
-const REQUIRED_KEYS = ["ID"];
-
-export const loadOsRelease = async (
-  path = DEFAULT_OS_RELEASE_PATH,
-): Promise<OsRelease> => {
-  const content = await fs.readFile(path, "utf-8");
-  const osRelease: Record<string, string> = {};
-
-  for (const line of content.split("\n")) {
-    const parts = line.split("=");
-    if (parts.length !== 2) {
-      continue;
-    }
-    const key = parts[0];
-    const value =
-      parts[1].startsWith('"') && parts[1].endsWith('"')
-        ? parts[1].slice(1, -1)
-        : parts[1];
-
-    osRelease[key] = value;
-  }
-
-  for (const key of REQUIRED_KEYS) {
-    if (typeof osRelease[key] !== "string" || osRelease[key].length === 0) {
-      throw new Error(`Missing ${key} in os-release`);
-    }
-  }
-
-  return osRelease as OsRelease;
-};
 
 interface PackageManager {
   install(packageName: string[], opts?: InstallOption): Promise<void>;
@@ -71,14 +35,14 @@ export class AptPackageManager implements PackageManager {
           "--no-install-recommends",
           ...packageName,
         ],
-        env,
+        { env },
       );
     } else {
       await exec("apt-get", ["update"]);
       await exec(
         "apt-get",
         ["install", "--yes", "--no-install-recommends", ...packageName],
-        env,
+        { env },
       );
     }
   }
@@ -89,9 +53,11 @@ export class AptPackageManager implements PackageManager {
   ): Promise<void> {
     const env = { DEBIAN_FRONTEND: "noninteractive" };
     if (opts?.sudo) {
-      await exec("sudo", ["apt-get", "remove", "--yes", ...packageName], env);
+      await exec("sudo", ["apt-get", "remove", "--yes", ...packageName], {
+        env,
+      });
     } else {
-      await exec("apt-get", ["remove", "--yes", ...packageName], env);
+      await exec("apt-get", ["remove", "--yes", ...packageName], { env });
     }
   }
 }
@@ -143,16 +109,17 @@ export const createPackageManager = async (): Promise<PackageManager> => {
     return new EchoPackageManager();
   }
 
-  const osRelease = await loadOsRelease();
   if (process.platform !== "linux") {
     throw new Error(`Unsupported platform: ${process.platform}`);
   }
+
+  const osReleaseId = await getOsReleaseId();
 
   /**
    * The specification of os-release is available at:
    * https://www.freedesktop.org/software/systemd/man/latest/os-release.html
    */
-  switch (osRelease.ID) {
+  switch (osReleaseId) {
     case "rhel":
     case "centos":
     case "ol":
@@ -168,5 +135,5 @@ export const createPackageManager = async (): Promise<PackageManager> => {
       return new ZypperPackageManager();
   }
 
-  throw new Error(`Unsupported distribution: ${osRelease.ID}`);
+  throw new Error(`Unsupported distribution: ${osReleaseId}`);
 };

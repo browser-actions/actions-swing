@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-import { loadOsRelease } from "../../src/pkg/distributions";
+import { loadOsRelease } from "../../src/runtime/index";
 
 describe("loadOsRelease", () => {
   let tmpDir: string;
