@@ -16,8 +16,15 @@ export class ZypperPackageManager implements PackageManager {
     }
   }
 
-  async uninstall(packageName: string[]): Promise<void> {
-    await exec("zypper", ["remove", "--no-confirm", ...packageName]);
+  async uninstall(
+    packageName: string[],
+    opts?: UninstallOption,
+  ): Promise<void> {
+    if (opts?.sudo) {
+      await exec("sudo", ["zypper", "remove", "--no-confirm", ...packageName]);
+    } else {
+      await exec("zypper", ["remove", "--no-confirm", ...packageName]);
+    }
   }
 }
 
