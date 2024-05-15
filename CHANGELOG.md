@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6](https://github.com/browser-actions/actions-swing/compare/v0.0.5...v0.0.6) (2024-05-15)
+
+
+### Bug Fixes
+
+* fix sudo on pkg ([#8](https://github.com/browser-actions/actions-swing/issues/8)) ([29daefb](https://github.com/browser-actions/actions-swing/commit/29daefbd46ea918eae46d52e6c515de58626d316)), closes [#7](https://github.com/browser-actions/actions-swing/issues/7)
+
 ## [0.0.5](https://github.com/browser-actions/actions-swing/compare/v0.0.4...v0.0.5) (2024-04-21)
 
 
