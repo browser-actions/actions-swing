@@ -32,8 +32,8 @@ Installs package(s) using the system package manager on Linux.
 ```typescript
 import { pkg } from 'actions-swing';
 
-await pkg.install('jq');
 await pkg.install(['vim', 'git']);
+await pkg.install(['vim', 'git'], { sudo: true });
 ```
 
 ### `pkg.uninstall()`
@@ -43,8 +43,8 @@ Uninstalls package(s) using the system package manager on Linux.
 ```typescript
 import { pkg } from 'actions-swing';
 
-await pkg.uninstall('jq');
 await pkg.uninstall(['vim', 'git']);
+await pkg.uninstall(['vim', 'git'], { sudo: true });
 ```
 
 ## License
