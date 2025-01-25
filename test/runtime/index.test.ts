@@ -16,19 +16,21 @@ describe("loadOsRelease", () => {
   });
 
   test.each([
-    { id: "rhel", idLike: "fedora" },
-    { id: "centos", idLike: "rhel fedora" },
-    { id: "ol", idLike: "fedora" },
-    { id: "fedora", idLike: undefined },
-    { id: "debian", idLike: undefined },
-    { id: "ubuntu", idLike: "debian" },
-    { id: "linuxmint", idLike: "ubuntu" },
-    { id: "opensuse-leap", idLike: "suse opensuse" },
-    { id: "sles", idLike: "suse" },
-  ])("should load os-release for $id", async ({ id }) => {
+    { id: "rhel", idLike: "fedora", versionId: "9.3" },
+    { id: "centos", idLike: "rhel fedora", versionId: "8" },
+    { id: "ol", idLike: "fedora", versionId: "9.3" },
+    { id: "fedora", idLike: undefined, versionId: "39" },
+    { id: "debian", idLike: undefined, versionId: "12" },
+    { id: "ubuntu", idLike: "debian", versionId: "22.04" },
+    { id: "linuxmint", idLike: "ubuntu", versionId: "21" },
+    { id: "opensuse-leap", idLike: "suse opensuse", versionId: "15.5" },
+    { id: "sles", idLike: "suse", versionId: "15.5" },
+  ])("should load os-release for $id", async ({ id, idLike, versionId }) => {
     const p = path.join(__dirname, "fixtures", `os-release.${id}`);
     const osRelease = await loadOsRelease(p);
     expect(osRelease.ID).toBe(id);
+    expect(osRelease.ID_LIKE).toBe(idLike);
+    expect(osRelease.VERSION_ID).toBe(versionId);
   });
 
   test.each(["", `ID=""`, `NAME="Hello"`])(
