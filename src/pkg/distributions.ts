@@ -30,7 +30,7 @@ export class ZypperPackageManager implements PackageManager {
 
 export class AptPackageManager implements PackageManager {
   async install(packageName: string[], opts?: InstallOption): Promise<void> {
-    const env = { DEBIAN_FRONTEND: "noninteractive" };
+    const env = { ...process.env, DEBIAN_FRONTEND: "noninteractive" };
     if (opts?.sudo) {
       await exec("sudo", ["apt-get", "update"]);
       await exec(
@@ -58,7 +58,7 @@ export class AptPackageManager implements PackageManager {
     packageName: string[],
     opts?: UninstallOption,
   ): Promise<void> {
-    const env = { DEBIAN_FRONTEND: "noninteractive" };
+    const env = { ...process.env, DEBIAN_FRONTEND: "noninteractive" };
     if (opts?.sudo) {
       await exec("sudo", ["apt-get", "remove", "--yes", ...packageName], {
         env,

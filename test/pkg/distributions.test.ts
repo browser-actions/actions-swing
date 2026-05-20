@@ -12,7 +12,7 @@ beforeEach(() => {
 
 describe("AptPackageManager", () => {
   const apt = new AptPackageManager();
-  const env = { DEBIAN_FRONTEND: "noninteractive" };
+  const env = { ...process.env, DEBIAN_FRONTEND: "noninteractive" };
 
   test("install", async () => {
     await apt.install(["jq"]);
